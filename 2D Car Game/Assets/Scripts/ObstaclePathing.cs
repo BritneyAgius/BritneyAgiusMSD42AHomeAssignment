@@ -30,7 +30,7 @@ public class ObstaclePathing : MonoBehaviour
 
     private void ObstacleMoveOnPath()
     {
-        if(waypointIndex < waypoints.Count)
+        if (waypointIndex < waypoints.Count)
         {
             //set targetPosition to the next waypoint
             Vector3 targetPosition = waypoints[waypointIndex].transform.position;

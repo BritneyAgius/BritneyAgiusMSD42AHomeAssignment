@@ -4,36 +4,62 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    [SerializeField] List<WaveConfig> waveConfigList;
+    //a list of WaveConfigs
+    [SerializeField] List<WaveConfig> waveConfigs;
 
-    int startingWave = 0;
+    //we start always from Wave 0
+    [SerializeField] int startingWave = 0;
+
+    [SerializeField] bool looping = false;
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        do
+        {
+            //start the coroutine that spawns all enemies in our currentWave
+            yield return StartCoroutine(SpawnAllWaves());
+        }
+        //when coroutine SpawnAllWaves finishes check if looping == true
+        while (looping);
 
-        var currentWave = waveConfigList[startingWave];
+    }
 
-        StartCoroutine(SpawnAllObstaclesinWave(currentWave));
+    private IEnumerator SpawnAllWaves()
+    {
+        //this will loop from startingWave until we reach the last within our List
+        for (int waveIndex = startingWave; waveIndex < waveConfigs.Count; waveIndex++)
+        {
+            var currentWave = waveConfigs[waveIndex];
+            //the coroutine will wait for all enemies in Wave to spawn
+            //before yielding and going to the next loop
+            yield return StartCoroutine(SpawnAllObstaclesInWave(currentWave));
+        }
+    }
+
+    //when calling this Corotuine, we need to specify which WaveConfig we want to spawn
+    private IEnumerator SpawnAllObstaclesInWave(WaveConfig waveConfig)
+    {
+        //spawns an obstacle until obstacleCount == GetNumberOfObstacles()
+        for (int obstacleCount = 0; obstacleCount < waveConfig.GetNumberOfObstacles(); obstacleCount++)
+        {
+            //spawn the obstacle from 
+            //at the position specified by the waveConfig waypoints
+            var newObstacle = Instantiate(
+                waveConfig.GetObstaclePrefab(),
+                waveConfig.GetWaypoints()[0].transform.position,
+                Quaternion.identity);
+            //the wave will be selected from here and the obstacle applied to it
+            newObstacle.GetComponent<ObstaclePathing>().SetWaveConfig(waveConfig);
+
+            yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    }
-
-    private IEnumerator SpawnAllObstaclesinWave(WaveConfig waveToSpawn)
-    {
-        for (int obstacleCount = 1; obstacleCount <= waveToSpawn.GetNumberOfObstacles(); obstacleCount++)
-            //spawn the obstacle from waveConfig at the position speicified by waveConfig waypoints
-            var newObstacle = Instantiate(
-                waveToSpawn.getObstaclePrefab(),
-                waveToSpawn.GetWaypoints()[0].transforn.position, Quaternion.identity);
-
-        newObstacle.GetComponent<ObstaclePathing>().SetWaveConfig(waveToSpawn); 
-
-        //wait TimeBetweenSpawns before spawning another obstacle
-        yield return new WaitForSeconds(waveToSpawn.GetTimeBetweenSpawns());        
     }
 }
