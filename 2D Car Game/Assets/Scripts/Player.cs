@@ -42,13 +42,11 @@ public class Player : MonoBehaviour
         var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * movementSpeed;
         //set the x pos to the current position + deltaX
         var newXPos = transform.position.x + deltaX;
+        //update the Player position 
+        newXPos = Mathf.Clamp(newXPos, xMin, xMax);
 
-        //get the movement on the y-axis
-        var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * movementSpeed;
-        //set the x pos to the current position + deltaX
-        var newYPos = transform.position.y + deltaY;
 
-        this.transform.position = new Vector2(newXPos, newYPos);
+        transform.position = new Vector2(newXPos, transform.position.y);
     }
 }
 
