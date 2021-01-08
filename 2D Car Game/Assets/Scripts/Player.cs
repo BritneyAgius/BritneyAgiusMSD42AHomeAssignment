@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
 
     private void SetUpMoveBoundaries()
     {
+
+        //Does not let the user move out of the border
         Camera gameCamera = Camera.main;
 
         xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + padding;

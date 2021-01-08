@@ -6,7 +6,8 @@ public class ObstaclePathing : MonoBehaviour
 {
 
     [SerializeField] List<Transform> waypoints;
-    [SerializeField] float ObstacleSpeed = 2f;
+    [SerializeField] float ObstacleSpeed = 5f;
+    WaveConfig waveConfig;
 
     //saves the waypoint in which we want to go
     int waypointIndex = 0;
@@ -14,6 +15,8 @@ public class ObstaclePathing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        waypoints = waveConfig.GetWaypoints();
+
         // Set the start position of the obstacle to the 1st WayPoint position
         transform.position = waypoints[waypointIndex].transform.position;
     }
@@ -21,18 +24,21 @@ public class ObstaclePathing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        ObstacleMoveOnPath();
     }
 
-    private void ObstacleMove()
+
+    private void ObstacleMoveOnPath()
     {
-        if (waypointIndex < waypoints.Count)
+        if(waypointIndex < waypoints.Count)
         {
             //set targetPosition to the next waypoint
             Vector3 targetPosition = waypoints[waypointIndex].transform.position;
-            targetPosition.z = 0f; //Make sure the z axis = 0
 
-            float movementThisFrame = ObstacleSpeed * Time.deltaTime;
+            //Make sure the z axis = 0
+            targetPosition.z = 0f;
+
+            var movementThisFrame = WaveConfig.GetObstacleMoveSpeed * Time.deltaTime;
 
             //move obstacle from current position to targetPosition, at movementThisFrame
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementThisFrame);
