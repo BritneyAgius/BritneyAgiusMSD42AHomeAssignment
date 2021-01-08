@@ -5,11 +5,11 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
     //a list of WaveConfigs
-    [SerializeField] List<WaveConfig> waveConfigs;
+    WaveConfig waveConfigs;
 
     //we start always from Wave 0
     [SerializeField] int startingWave = 0;
-
+    public int waveIndex;
     [SerializeField] bool looping = false;
 
     // Start is called before the first frame update
@@ -25,7 +25,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     }
 
-    private IEnumerator SpawnAllWaves()
+    IEnumerator SpawnAllWaves()
     {
         //this will loop from startingWave until we reach the last within our List
         for (int waveIndex = startingWave; waveIndex < waveConfigs.Count; waveIndex++)
@@ -38,7 +38,7 @@ public class ObstacleSpawner : MonoBehaviour
     }
 
     //when calling this Corotuine, we need to specify which WaveConfig we want to spawn
-    private IEnumerator SpawnAllObstaclesInWave(WaveConfig waveConfig)
+    IEnumerator SpawnAllObstaclesInWave(WaveConfig waveConfig)
     {
         //spawns an obstacle until obstacleCount == GetNumberOfObstacles()
         for (int obstacleCount = 0; obstacleCount < waveConfig.GetNumberOfObstacles(); obstacleCount++)
@@ -54,12 +54,6 @@ public class ObstacleSpawner : MonoBehaviour
 
             yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
         }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }
