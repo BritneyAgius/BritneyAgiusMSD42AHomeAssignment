@@ -17,5 +17,4 @@ public class DamageDealer : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
 }
