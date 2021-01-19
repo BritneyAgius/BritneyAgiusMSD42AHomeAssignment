@@ -2,61 +2,86 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Obstacle Wave Config")]
-public class WaveConfig : ScriptableObject
+//object wave 
+[CreateAssetMenu(menuName = "Enemy wave config")]
+public class waveConfig : ScriptableObject
 {
-    //the obstacle
-    [SerializeField] GameObject obstaclePrefab;
+    //enemy
+
+    [SerializeField] GameObject enemyPrefab;
+
 
     //the path on which to go
-    [SerializeField] GameObject pathPrefab;
+    [SerializeField] GameObject path1Prefab;
+    [SerializeField] GameObject path2Prefab;
+
 
     //time between each spawn
     [SerializeField] float timeBetweenSpawns = 0.5f;
 
-    //include this random time difference between spawns
+    //include this random time diffrence between spawns 
     [SerializeField] float spawnRandomFactor = 0.3f;
 
-    //number of obstacles in the wave
-    [SerializeField] int numberOfObstacles = 5;
+    //number of enemies in a wave
+    [SerializeField] int numberOfObstacles = 1;
 
-    //obstacle movement speed
-    [SerializeField] float obstacleMoveSpeed = 5f;
+    //enem movment speed
+    [SerializeField] float obstacleMoveSpeed = 0.2f;
 
-    public GameObject GetObstaclePrefab()
+    public GameObject getObstaclePrefab()
     {
-        return obstaclePrefab;
+        return enemyPrefab;
     }
 
-    public List<Transform> GetWaypoints()
+    /*public GameObject getPathPrefab()
     {
-        //each wave can have different waypoints
-        var waveWayPoints = new List<Transform>();
+        return pathPrefab;
+    }*/
 
-        //go into Path prefab and for each child, add it to the List waveWaypoints
-        foreach (Transform child in pathPrefab.transform)
+    public List<Transform> getWaypoints()
+    {
+        int r = Random.Range(0, 3);
+        List<Transform> waveWaypoints = new List<Transform>();
+        switch (r)
         {
-            waveWayPoints.Add(child);
-        }
-        return waveWayPoints;
-    }
+            case 1:
 
-    public float GetTimeBetweenSpawns()
+                foreach (Transform child in path1Prefab.transform)
+                {
+                    waveWaypoints.Add(child);
+                }
+
+                break;
+            case 2:
+                foreach (Transform child in path2Prefab.transform)
+                {
+                    waveWaypoints.Add(child);
+                }
+                break;
+            default:
+                foreach (Transform child in path1Prefab.transform)
+                {
+                    waveWaypoints.Add(child);
+                }
+                break;
+
+        }
+        return waveWaypoints;
+
+    }
+    public float getTimeBetweenSpawns()
     {
         return timeBetweenSpawns;
     }
-
-    public float GetSpawnRandomFactor()
+    public float getSpawnRandomFactor()
     {
         return spawnRandomFactor;
     }
-
-    public int GetNumberOfObstacles()
+    public int getNumberOfObstacles()
     {
         return numberOfObstacles;
     }
-
-    public float GetObstacleMoveSpeed()
+    public float getObstacleMoveSpeed()
     {
         return obstacleMoveSpeed;
     }

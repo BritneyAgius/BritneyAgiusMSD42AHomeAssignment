@@ -4,61 +4,65 @@ using UnityEngine;
 
 public class ObstaclePathing : MonoBehaviour
 {
-
-    [SerializeField] List<Transform> waypoints;
-    [SerializeField] float ObstacleSpeed = 5f;
-    static int points = 0;
-    WaveConfig waveConfig;
-
-    //saves the waypoint in which we want to go
-    int waypointIndex = 0;
+    //the asset item in the project panel which is of type waveConfig
+    waveConfig waveConfig;
+    [SerializeField] AudioClip endSound;
+    [SerializeField] [Range(0, 1)] float endVolumeSound = 0.75f;
+    List<Transform> waypoints;
+    //[SerializeField] float moveSpeed = 2f;
+    int wayPointIndex = 0;
+    [SerializeField] int points = 5;
 
     // Start is called before the first frame update
     void Start()
     {
-        waypoints = waveConfig.GetWaypoints();
-
-        // Set the start position of the obstacle to the 1st WayPoint position
-        transform.position = waypoints[waypointIndex].position;
+        waypoints = waveConfig.getWaypoints();//fetch the method get waypoint from our
+        //currunt waveconfig retrivve all of the pints found in the current
+        //linked path
+        transform.position = waypoints[wayPointIndex].position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ObstacleMoveOnPath();
+
+        obstacleMove();
     }
-
-
-    private void ObstacleMoveOnPath()
+    void obstacleMove()
     {
-        if (waypointIndex < waypoints.Count)
+        if (wayPointIndex < waypoints.Count)
         {
-            //set targetPosition to the next waypoint
-            Vector3 targetPosition = waypoints[waypointIndex].transform.position;
+            var targetPosition = waypoints[wayPointIndex].transform.position;
+            var movmentThisFrame = waveConfig.getObstacleMoveSpeed() * Time.deltaTime;//making rhe enmen movment
+            //movment frame indepednent (moving at the same speed of every pc)
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, movmentThisFrame);
 
-            //Make sure the z axis = 0
-            
-            var movementThisFrame = ObstacleSpeed * Time.deltaTime;
-
-            //move obstacle from current position to targetPosition, at movementThisFrame
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, movementThisFrame);
-
-            //if obstacle reaches the first point
             if (transform.position == targetPosition)
-            {
-                points + 5;
-                waypointIndex++;
-            }
+
+                wayPointIndex++;
+
+
         }
-        //if obstacle reaches last waypoint
         else
         {
-            Destroy(gameObject);
-        }
 
-        public void SetWaveConfig(WaveConfig waveConfigToSet)
-        {
-            waveConfig = waveConfigToSet;
+            //AudioSource.PlayClipAtPoint(dieSound, Camera.main.transform.position, dieVolumeSound);
+            FindObjectOfType<ScoreSession>().AddToScore(points);
+            Destroy(gameObject);
+            print(points);
+
+            int score = FindObjectOfType<ScoreSession>().GetScore();
+            if (score >= 100)
+            {
+                GameObject explosion = Instantiate(FindObjectOfType<PlayerScript>().DeathVfx(), FindObjectOfType<PlayerScript>().transform.position, Quaternion.identity);
+
+                FindObjectOfType<Level>().Winner();
+            }
+
         }
+    }
+    public void SetWaveConfig(waveConfig waveConfigToSet)
+    {
+        waveConfig = waveConfigToSet;
     }
 }

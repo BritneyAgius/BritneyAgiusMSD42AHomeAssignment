@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4887295040407394317}
   - component: {fileID: 4887295040407394318}
-  - component: {fileID: 4266657345942280287}
   m_Layer: 0
   m_Name: TrashMasher
   m_TagString: Untagged
@@ -83,17 +82,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4266657345942280287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4887295040407394304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656053b276abf42acb7e2cc63b4144c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints: []
-  ObstacleSpeed: 5
