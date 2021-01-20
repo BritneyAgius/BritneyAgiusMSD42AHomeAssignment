@@ -33,10 +33,10 @@ public class ObstacleSpawner : MonoBehaviour
     {
         for (int obstacleCount = 0; obstacleCount < waveConfig.getNumberOfObstacles(); obstacleCount++)
         {
-            GameObject newObstacleClone = Instantiate(waveConfig.getObstaclePrefab(), waveConfig.getWaypoints()[0].position, Quaternion.identity);///obstacles are cloned at waypoint[0] in list 
-            newObstacleClone.GetComponent<ObstaclePathing>().SetWaveConfig(waveConfig);waypoints are followed via obstaclePathing
+            GameObject newObstacleClone = Instantiate(waveConfig.getObstaclePrefab(), waveConfig.getWaypoints()[0].position, Quaternion.identity);//obstacles are cloned at waypoint[0] in list 
+            newObstacleClone.GetComponent<ObstaclePathing>().SetWaveConfig(waveConfig); //waypoints are followed via obstaclePathing
 
-            yield return new WaitForSeconds(waveConfig.getTimeBetweenSpawns()); ///time between spawns
+            yield return new WaitForSeconds(waveConfig.getTimeBetweenSpawns()); //time between spawns
         }
     }
 

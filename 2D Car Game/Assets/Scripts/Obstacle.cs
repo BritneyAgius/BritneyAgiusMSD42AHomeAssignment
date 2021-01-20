@@ -5,7 +5,7 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     //declaring variables thhat can later be changed from unity
-    [SerializeField] float amountShot;
+    [SerializeField] float Shotcounter;
     [SerializeField] float minTime = 0.2f;
     [SerializeField] float maxTime = 3f;
     [SerializeField] GameObject obstacleLaserPrefab = null;
@@ -15,7 +15,7 @@ public class Obstacle : MonoBehaviour
     
     void Start()
     {
-        amountShot = Random.Range(minTime, maxTime);//fire at random min and max time 
+        Shotcounter = Random.Range(minTime, maxTime);//fire at random min and max time 
     }
 
     // Update is called once per frame
@@ -27,13 +27,13 @@ public class Obstacle : MonoBehaviour
 
     void CountDownThenShoot()
     {
-        amountShot -= Time.deltaTime;
+        Shotcounter -= Time.deltaTime;
 
-        if (amountShot <= 0)
+        if (Shotcounter <= 0)
         {
             ObstacleFire();
 
-            amountShot = Random.Range(minTime, maxTime);
+            Shotcounter = Random.Range(minTime, maxTime);
         }
     }
 
