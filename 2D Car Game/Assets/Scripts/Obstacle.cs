@@ -10,7 +10,8 @@ public class Obstacle : MonoBehaviour
     [SerializeField] float maxTime = 3f;
     [SerializeField] GameObject obstacleLaserPrefab = null;
     [SerializeField] float obstacleLaserSpeed = 20f;
-
+  
+ 
     waveConfig waveConfig;
     
     void Start()

@@ -72,7 +72,6 @@ public class Player : MonoBehaviour
             GameObject explosion = Instantiate(deathVFX, transform.position, Quaternion.identity);
             die();
             Destroy(gameObject); //destroy player
-
         }
     }
 
