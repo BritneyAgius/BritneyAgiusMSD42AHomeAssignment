@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObstacleShooting : MonoBehaviour
 {
-    //initilizing and declaring variables
+    //Declaring variables that can be changed in unity
     [SerializeField] float amountShot;
     [SerializeField] float minTime = 0.2f;
     [SerializeField] float maxTime = 3f;
@@ -15,7 +15,7 @@ public class ObstacleShooting : MonoBehaviour
 
     void Start()
     {
-        amountShot = Random.Range(minTime, maxTime);//make fire at random minimum and maximum time 
+        amountShot = Random.Range(minTime, maxTime);//fire at random min and max time 
     }
 
     // Update is called once per frame
@@ -33,13 +33,13 @@ public class ObstacleShooting : MonoBehaviour
         {
             ObstacleFire();
 
-            amountShot = Random.Range(minTime, maxTime);//make fire at random minimum and maximum time
+            amountShot = Random.Range(minTime, maxTime);
         }
     }
 
     void ObstacleFire()
     {
-        GameObject enemyLaserClone = Instantiate(obstacleLaserPrefab, transform.position, Quaternion.Euler(0, 0, 180));//enemy laser go down 
-        enemyLaserClone.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -obstacleLaserSpeed);//speed of laser
+        GameObject enemyLaserClone = Instantiate(obstacleLaserPrefab, transform.position, Quaternion.Euler(0, 0, 180));//obstacle shoots laser downward 
+        enemyLaserClone.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -obstacleLaserSpeed);//laser speed
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
     //Variables
-
     [SerializeField] List<waveConfig> waveConfig;
     [SerializeField] bool looping = false;
 
@@ -15,9 +14,9 @@ public class ObstacleSpawner : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        / waveConfig currentWave = waveConfig[startWave];
+        waveConfig currentWave = waveConfig[startWave];
         StartCoroutine(SpawnAllObstaclesInWave(currentWave));
-        StartCoroutine(spawnAllWaves());/
+        StartCoroutine(spawnAllWaves());
         do
         {
             yield return StartCoroutine(spawnAllWaves());
@@ -29,16 +28,18 @@ public class ObstacleSpawner : MonoBehaviour
     {
 
     }
-    IEnumerator SpawnAllObstaclesInWave(waveConfig waveConfig)
+
+    IEnumerator SpawnAllObstaclesInWave(waveConfig waveConfig) //all obstacles are spawned in a wave
     {
         for (int obstacleCount = 0; obstacleCount < waveConfig.getNumberOfObstacles(); obstacleCount++)
         {
-            GameObject newObstacleClone = Instantiate(waveConfig.getObstaclePrefab(), waveConfig.getWaypoints()[0].position, Quaternion.identity);///creating enemy clone at waypoint[0] in list 
-            newEnemyClone.GetComponent<ObstaclePathing>().SetWaveConfig(waveConfig);//reading the enemyPathing to follow waypoints
+            GameObject newObstacleClone = Instantiate(waveConfig.getObstaclePrefab(), waveConfig.getWaypoints()[0].position, Quaternion.identity);///obstacles are cloned at waypoint[0] in list 
+            newObstacleClone.GetComponent<ObstaclePathing>().SetWaveConfig(waveConfig);waypoints are followed via obstaclePathing
 
-            yield return new WaitForSeconds(waveConfig.getTimeBetweenSpawns());// wait (time ) before spawn another enemy 
+            yield return new WaitForSeconds(waveConfig.getTimeBetweenSpawns()); ///time between spawns
         }
     }
+
     IEnumerator spawnAllWaves()//Spawn wave one then two then three...
     {
 
@@ -48,9 +49,5 @@ public class ObstacleSpawner : MonoBehaviour
 
             yield return StartCoroutine(SpawnAllObstaclesInWave(currentWave));
         }
-
-
     }
-
-
 }

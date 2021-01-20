@@ -12,6 +12,7 @@ public class ScoreSession : MonoBehaviour
         SetUpSingleton();
         DontDestroyOnLoad(gameObject);
     }
+
     void SetUpSingleton()
     {
         if (FindObjectsOfType<ScoreSession>().Length > 1)
@@ -20,15 +21,18 @@ public class ScoreSession : MonoBehaviour
         }
 
     }
+
     public int GetScore()
     {
         return score;
     }
+
     public void AddToScore(int scoreValue)
     {
         score += scoreValue;
 
     }
+
     public void ResetGame()
     {
         Destroy(gameObject);

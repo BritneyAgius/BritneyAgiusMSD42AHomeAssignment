@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] int damage = 100;
+
+    public int GetDamage()
     {
-        
+
+        return damage;//return damage 
     }
 
-    // Update is called once per frame
-    void Update()
+    public void hit()
     {
-        
+        Destroy(gameObject);
     }
 }
